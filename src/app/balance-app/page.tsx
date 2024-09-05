@@ -2,17 +2,9 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { AvaCloudSDK} from "@avalabs/avacloud-sdk";
 import { Erc20TokenBalance } from "@avalabs/avacloud-sdk/models/components/erc20tokenbalance";
 
 export default function BalanceApp() {
-  
-  const avaCloudSDK = new AvaCloudSDK({
-    apiKey: process.env.GLACIER_API_KEY,
-    chainId: "43114", // Avalanche Mainnet
-    network: "mainnet",
-  });
-
   const [address, setAddress] = useState<string>();
   const [balances, setBalances] = useState<Erc20TokenBalance[]>([]);
 
@@ -28,21 +20,11 @@ export default function BalanceApp() {
   };
 
   const fetchERC20Balances = async (address: string) => {
-    const blockResult = await avaCloudSDK.data.evm.blocks.getLatestBlocks({
-      pageSize: 1,
-    });
-    
-    const result = await avaCloudSDK.data.evm.balances.listErc20Balances({
-      blockNumber: blockResult.result.blocks[0].blockNumber,
-      pageSize: 10,
-      address: address,
-    });
-
-    const balances: Erc20TokenBalance[] = [];
-    for await (const page of result) {
-      balances.push(...page.result.erc20TokenBalances);
-    }
-    return balances
+    const blockResult = await fetch("api/balance?method=getBlockHeight");
+    const blockNumber = await blockResult.json();
+    const result = await fetch("api/balance?method=listErc20Balances&address=" + address + "&blockNumber=" + blockNumber);
+    const balances = await result.json();
+    return balances as Erc20TokenBalance[];
   };
 
 
