@@ -22,8 +22,8 @@ export default function BalanceApp() {
   const fetchERC20Balances = async (address: string) => {
     const blockResult = await fetch("api/balance?method=getBlockHeight");
     const blockNumber = await blockResult.json();
-    const result = await fetch("api/balance?method=listErc20Balances&address=" + address + "&blockNumber=" + blockNumber);
-    const balances = await result.json();
+    const balanceResult = await fetch("api/balance?method=listErc20Balances&address=" + address + "&blockNumber=" + blockNumber);
+    const balances = await balanceResult.json();
     return balances as Erc20TokenBalance[];
   };
 

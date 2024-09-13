@@ -1,3 +1,4 @@
+"use server";
 import { NextResponse } from 'next/server'
 import { AvaCloudSDK} from "@avalabs/avacloud-sdk";
 import { Erc20TokenBalance } from '@avalabs/avacloud-sdk/models/components/erc20tokenbalance';
@@ -11,7 +12,6 @@ const avaCloudSDK = new AvaCloudSDK({
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const method = searchParams.get('method')
-  
   try {
     let result
     switch (method) {
@@ -35,7 +35,6 @@ export async function GET(request: Request) {
         }
         result = balances
         break
-      // Add more cases for other SDK methods
       default:
         return NextResponse.json({ error: 'Invalid method' }, { status: 400 })
     }
@@ -46,24 +45,3 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }
-
-// export async function POST(request: Request) {
-//   const body = await request.json()
-//   const { method, ...params } = body
-
-//   try {
-//     let result
-//     switch (method) {
-//       case 'createUser':
-//         result = await sdk.createUser(params)
-//         break
-//       // Add more cases for other SDK methods that require POST
-//       default:
-//         return NextResponse.json({ error: 'Invalid method' }, { status: 400 })
-//     }
-//     return NextResponse.json(result)
-//   } catch (error) {
-//     console.error('SDK error:', error)
-//     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
-//   }
-// }
