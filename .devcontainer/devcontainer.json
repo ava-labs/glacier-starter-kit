@@ -1,39 +1,50 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.202.5/containers/typescript-node
+
+​​// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+
+// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
+
 {
-	"name": "Node.js & TypeScript",
-	"runArgs": ["--init"],
-	"build": {
-		"dockerfile": "Dockerfile",
-		// Update 'VARIANT' to pick a Node version: 16, 14, 12.
-		// Append -bullseye or -buster to pin to an OS version.
-		// Use -bullseye variants on local on arm64/Apple Silicon.
-		"args": { 
-			"VARIANT": "16-bullseye"
-		}
-	},
 
-	// Set *default* container specific settings.json values on container create.
-	// "settings": {},
+    "name": "Node.js & TypeScript",
+
+    // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:0-20",
+
+    // Features to add to the dev container. More info: https://containers.dev/features.
+
+    // "features": {},
+
+    // Use 'postCreateCommand' to run commands after the container is created.
 
 
-	// Add the IDs of extensions you want installed when the container is created.
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"dbaeumer.vscode-eslint"
-			]
-		}
-	},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [3000],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "yarn install",
+	"updateContentCommand": "yarn install",
 	"postAttachCommand": "yarn dev",
 
+	"waitFor": "updateConentCommand",
 
-	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-	"remoteUser": "node"
+	"forwardPorts": [3000],
+
+
+    "portsAttributes": {
+
+        "3000": {
+
+            "label": "Application",
+
+            "onAutoForward": "openPreview"
+
+        }
+
+    }
+
+
+
+    // Configure tool-specific properties.
+
+    // "customizations": {},
+
+    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+
+    // "remoteUser": "root"
 }
