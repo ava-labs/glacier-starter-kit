@@ -16,32 +16,38 @@ export async function GET(request: Request) {
     let result
     switch (method) {
       case 'getBlockHeight':
-        result = await avaCloudSDK.data.evm.blocks.getLatestBlocks({
-            pageSize: 1,
-          });
-        result = result.result.blocks[0].blockNumber
+        result = await getBlockHeight()
         break
       case 'listErc20Balances':
         const address: string = searchParams.get('address')!
         const blockNumber: string = searchParams.get('blockNumber')!
-        result = await avaCloudSDK.data.evm.balances.listErc20Balances({
-            blockNumber: blockNumber,
-            pageSize: 10,
-            address: address,
-          });
-        const balances: Erc20TokenBalance[] = [];
-        for await (const page of result) {
-            balances.push(...page.result.erc20TokenBalances);
-        }
-        result = balances
+        result = await listErc20Balances(address, blockNumber);
         break
       default:
         return NextResponse.json({ error: 'Invalid method' }, { status: 400 })
     }
-    
     return NextResponse.json(result)
   } catch (error) {
-    console.error('SDK error:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
+}
+
+async function getBlockHeight() {
+    const result = await avaCloudSDK.data.evm.blocks.getLatestBlocks({
+        pageSize: 1,
+      });
+    return result.result.blocks[0].blockNumber
+}
+
+async function listErc20Balances(address: string, blockNumber: string) {
+    const result = await avaCloudSDK.data.evm.balances.listErc20Balances({
+        blockNumber: blockNumber,
+        pageSize: 10,
+        address: address,
+      });
+    const balances: Erc20TokenBalance[] = [];
+    for await (const page of result) {
+        balances.push(...page.result.erc20TokenBalances);
+    }
+    return balances
 }
