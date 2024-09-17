@@ -12,7 +12,7 @@ export default function BasicWallet() {
   const [erc721Balances, setErc721Balances] = useState<Erc721TokenBalance[]>([])
   const [erc1155Balances, setErc1155Balances] = useState<Erc1155TokenBalance[]>([])
   const [recentTransactions, setRecentTransactions] = useState<TransactionDetails>()
-  const [activeTab, setActiveTab] = useState('erc20')
+  const [activeTab, setActiveTab] = useState('nfts')
 
   const fetchERC20Balances = async (address: string) => {
     const blockResult = await fetch("api/balance?method=getBlockHeight");
@@ -97,48 +97,48 @@ export default function BasicWallet() {
           </div>
 
           {activeTab === 'nfts' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {erc721Balances.length > 0 && erc721Balances.map((nft) => (
-                 <a 
-                 key={nft.symbol} 
-                 href={`https://snowtrace.io/token/${nft.address}`} 
-                 target="_blank" 
-                 rel="noopener noreferrer" 
-                 className="block hover:bg-gray-200"
+               <a 
+               key={nft.symbol} 
+               href={`https://snowtrace.io/token/${nft.address}`} 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               className="block hover:scale-105"
                >
-                <div key={nft.tokenId} className="border rounded-lg p-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-lg font-semibold">{nft.name}</h3>
-                    <h3 className="text-lg font-semibold">#{nft.tokenId}</h3>
-                  </div>
-                  {nft.metadata.imageUri && (
-                    <img src={nft.metadata.imageUri} alt={nft.symbol} className="w-full h-auto" />
-                  )}
+              <div key={nft.tokenId} className="border rounded-lg p-4">
+                <div className="flex justify-between items-center mb-2">
+                <h3 className="text-lg font-semibold">{nft.name}</h3>
+                <h3 className="text-lg font-semibold">#{nft.tokenId}</h3>
                 </div>
+                {nft.metadata.imageUri && (
+                <img src={nft.metadata.imageUri} alt={nft.symbol} className="w-full h-auto" />
+                )}
+              </div>
                </a>
               ))}
             </div>
           )}
 
           {activeTab === 'erc20' && (
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {erc20Balances.length > 0 && erc20Balances.map((token) => (
-                <a 
-                  key={token.symbol} 
-                  href={`https://snowtrace.io/token/${token.address}`} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="border rounded-lg p-4 block hover:bg-gray-200"
-                >
-                  <div className="flex items-center">
-                  {token.logoUri && (
-                  <img src={token.logoUri} alt={token.name} className="w-6 h-6 inline-block mr-2" />
-                  )}
-                  <h3 className="text-lg font-semibold">{token.name}</h3>
-                  </div>
-                  <p className="text-sm text-gray-500">{token.symbol}</p>
-                  <p>Balance: {Number(token.balance) / 10 ** Number(token.decimals)}</p>
-                </a>
+              <a 
+                key={token.symbol} 
+                href={`https://snowtrace.io/token/${token.address}`} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="border rounded-lg p-4 block hover:bg-gray-200 transition duration-200 ease-in-out transform hover:scale-105"
+              >
+                <div className="flex items-center mb-2">
+                {token.logoUri && (
+                  <img src={token.logoUri} alt={token.name} className="w-8 h-8 inline-block mr-2" />
+                )}
+                <h3 className="text-lg font-semibold">{token.name}</h3>
+                </div>
+                <p className="text-sm text-gray-500">{token.symbol}</p>
+                <p className="text-sm">Balance: {Number(token.balance) / 10 ** Number(token.decimals)}</p>
+              </a>
               ))}
             </div>
           )}
@@ -160,44 +160,44 @@ export default function BasicWallet() {
             <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
             <ul className="space-y-4">
               {activeTab === 'nfts' && (
-              recentTransactions?.erc721Transfers?.map((tx) => (
-              //   <a 
-              //   key={tx.erc721Token.txHash} 
-              //   href={`https://snowtrace.io/token/${tx.erc721Token.address}`} 
-              //   target="_blank" 
-              //   rel="noopener noreferrer" 
-              //   className="block hover:bg-gray-200"
-              // >
+              recentTransactions?.erc721Transfers?.map((tx) => (      
                 <li key={tx.logIndex} className="flex items-center space-x-4">
-                  {tx.erc721Token.metadata.imageUri && (
-                    <img src={tx.erc721Token.metadata.imageUri} alt={tx.erc721Token.name} className="w-10 h-10 rounded-full" />
-                  )}
+                  <Image 
+                  src={tx.erc721Token.metadata.imageUri || "/avax.svg"}
+                  alt={"NFT"} 
+                  className="w-10 h-10 rounded-full"
+                  width={40}
+                  height={40}
+                  />
                   <div>
-                  <p className="text-xs text-white">{String(tx.from?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Send' : String(tx.to?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Receive' : 'SW'}
+                  <p className="text-xs text-white">
+                    {String(tx.from?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Send' : String(tx.to?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Receive' : 'SW'}
                   </p>
-                    <p className="text-xs text-gray-500">{tx.erc721Token.name}</p>
-                    <p className="text-xs text-gray-500">#{tx.erc721Token.tokenId}</p>
+                  <p className="text-xs text-gray-500">{tx.erc721Token.name}</p>
+                  <p className="text-xs text-gray-500">#{tx.erc721Token.tokenId}</p>
                   </div>
                 </li>
-                // </a>
-
               )))}
-              {activeTab === 'erc20' && (
-              recentTransactions?.erc20Transfers?.map((tx) => (
-                <li key={tx.logIndex} className="flex items-center space-x-4">
-                  <div>
-                  <p className="text-xs text-white">{String(tx.from?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Send' : String(tx.to?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Receive' : 'SW'}
-                  </p>
-                    <div className="flex items-center">
+                {activeTab === 'erc20' && (
+                recentTransactions?.erc20Transfers?.map((tx) => (
+                    <li key={tx.logIndex} className="flex items-center space-x-4 p-4 bg-gray-800 rounded-lg shadow-md">
+                    <div className="flex-shrink-0">
                       {tx.erc20Token.logoUri && (
-                      <img src={tx.erc20Token.logoUri} alt={tx.erc20Token.name} className="w-6 h-6 inline-block mr-2" />
+                      <img src={tx.erc20Token.logoUri} alt={tx.erc20Token.name} className="w-10 h-10 rounded-full" />
                       )}
-                      <p className="text-xs text-gray-500">{tx.erc20Token.name}</p>
                     </div>
-                    <p className="text-xs text-gray-500">{Number(tx.value) / 10 ** Number(tx.erc20Token.decimals)}</p>
-                  </div>
-                </li>
-              )))}
+                    <div className="flex-grow">
+                      <p className="text-sm font-semibold text-white">
+                      {String(tx.from?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Send' : String(tx.to?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Receive' : 'SW'}
+                      </p>
+                      <p className="text-sm text-gray-400">{tx.erc20Token.name}</p>
+                      <p className="text-sm text-gray-400">
+                      {Number(tx.value) / 10 ** Number(tx.erc20Token.decimals)}
+                      </p>
+                    </div>
+                    </li>
+                ))
+                )}
             </ul>
           </div>
         </aside>
