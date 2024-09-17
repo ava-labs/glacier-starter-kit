@@ -37,7 +37,6 @@ export default function BasicWallet() {
   const fetchRecentTransactions = async (address: string) => {
     const result = await fetch(`api/wallet?method=listRecentTransactions&address=${address}`);
     const transactions = await result.json();
-    console.log(transactions)
     return transactions as TransactionDetails;
   }
 
@@ -107,9 +106,14 @@ export default function BasicWallet() {
                  rel="noopener noreferrer" 
                  className="block hover:bg-gray-200"
                >
-                <div key={nft.address} className="border rounded-lg p-4">
-                  <h3 className="text-lg font-semibold mb-2">{nft.name}</h3>
-                  <img src={nft.metadata.imageUri} alt={nft.symbol} className="w-full h-auto" />
+                <div key={nft.tokenId} className="border rounded-lg p-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-lg font-semibold">{nft.name}</h3>
+                    <h3 className="text-lg font-semibold">#{nft.tokenId}</h3>
+                  </div>
+                  {nft.metadata.imageUri && (
+                    <img src={nft.metadata.imageUri} alt={nft.symbol} className="w-full h-auto" />
+                  )}
                 </div>
                </a>
               ))}
@@ -157,28 +161,33 @@ export default function BasicWallet() {
             <ul className="space-y-4">
               {activeTab === 'nfts' && (
               recentTransactions?.erc721Transfers?.map((tx) => (
+              //   <a 
+              //   key={tx.erc721Token.txHash} 
+              //   href={`https://snowtrace.io/token/${tx.erc721Token.address}`} 
+              //   target="_blank" 
+              //   rel="noopener noreferrer" 
+              //   className="block hover:bg-gray-200"
+              // >
                 <li key={tx.logIndex} className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                    <span className="text-gray-600 font-semibold">
-                      {String(tx.from?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'S' : String(tx.to?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'R' : 'SW'}
-                    </span>
-                  </div>
+                  {tx.erc721Token.metadata.imageUri && (
+                    <img src={tx.erc721Token.metadata.imageUri} alt={tx.erc721Token.name} className="w-10 h-10 rounded-full" />
+                  )}
                   <div>
-                    <p className="text-sm font-medium">{}</p>
+                  <p className="text-xs text-white">{String(tx.from?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Send' : String(tx.to?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Receive' : 'SW'}
+                  </p>
                     <p className="text-xs text-gray-500">{tx.erc721Token.name}</p>
-                    <p className="text-xs text-gray-500">{tx.erc721Token.tokenId}</p>
+                    <p className="text-xs text-gray-500">#{tx.erc721Token.tokenId}</p>
                   </div>
                 </li>
+                // </a>
+
               )))}
               {activeTab === 'erc20' && (
               recentTransactions?.erc20Transfers?.map((tx) => (
                 <li key={tx.logIndex} className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                    <span className="text-gray-600 font-semibold">
-                      {String(tx.from?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'S' : String(tx.to?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'R' : 'SW'}
-                    </span>
-                  </div>
                   <div>
+                  <p className="text-xs text-white">{String(tx.from?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Send' : String(tx.to?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Receive' : 'SW'}
+                  </p>
                     <div className="flex items-center">
                       {tx.erc20Token.logoUri && (
                       <img src={tx.erc20Token.logoUri} alt={tx.erc20Token.name} className="w-6 h-6 inline-block mr-2" />
