@@ -4,7 +4,7 @@ import { AvaCloudSDK} from "@avalabs/avacloud-sdk";
 import { NativeTransaction, EvmBlock } from '@avalabs/avacloud-sdk/models/components';
 
 const avaCloudSDK = new AvaCloudSDK({
-    apiKey: process.env.GLACIER_API_KEY,
+    apiKey: process.env.AVACLOUD_API_KEY,
     chainId: "43114", // Avalanche Mainnet
     network: "mainnet",
   });

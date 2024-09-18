@@ -6,7 +6,7 @@ import { Erc1155TokenBalance } from '@avalabs/avacloud-sdk/models/components/erc
 import { TransactionDetails } from '@avalabs/avacloud-sdk/models/components/transactiondetails';
 
 const avaCloudSDK = new AvaCloudSDK({
-    apiKey: process.env.GLACIER_API_KEY,
+    apiKey: process.env.AVACLOUD_API_KEY,
     chainId: "43114", // Avalanche Mainnet
     network: "mainnet",
   });
