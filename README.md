@@ -6,10 +6,10 @@ First, download the packages using `yarn`
 yarn install
 ```
 
-Now create a `.env` file in the project root and add your `GLACIER_API_KEY` [from AvaCloud Dashboard.](https://app.avacloud.io/glacier-api/)
+Now create a `.env` file in the project root and add your `AVACLOUD_API_KEY` [from AvaCloud Dashboard.](https://app.avacloud.io/glacier-api/)
 
 ```bash
-GLACIER_API_KEY=ac_rGIKESl9_9DWuLfJJQLSV5n...
+AVACLOUD_API_KEY=ac_rGIKESl9_9DWuLfJJQLSV5n...
 ```
 
 Finally, run the development server:
