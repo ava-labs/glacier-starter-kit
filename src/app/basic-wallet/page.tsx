@@ -23,29 +23,32 @@ export default function BasicWallet() {
   };
 
   const fetchERC721Balances = async (address: string) => {
-    const result = await fetch(`api/wallet?method=listERC721Balances&address=${address}`);
-    const balances = await result.json();
-    return balances as Erc721TokenBalance[];
+    //
+    // TODO: Implement this!
+    //
+    return [] as Erc721TokenBalance[];
   }
 
   const fetchERC1155Balances = async (address: string) => {
-    const result = await fetch(`api/wallet?method=listERC1155Balances&address=${address}`);
-    const balances = await result.json();
-    return balances as Erc1155TokenBalance[];
+     //
+    // TODO: Implement this!
+    //
+    return [] as Erc1155TokenBalance[];
   }
 
   const fetchRecentTransactions = async (address: string) => {
-    const result = await fetch(`api/wallet?method=listRecentTransactions&address=${address}`);
-    const transactions = await result.json();
-    return transactions as TransactionDetails;
+    //
+    // TODO: Implement this!
+    //
+    return {} as TransactionDetails;
   }
 
   useEffect(() => {
     if (address) {
-        fetchERC20Balances("0xd26C04bE22Cb25c7727504daF4304919cA26e301").then(setErc20Balances);
-        fetchERC721Balances("0xd26C04bE22Cb25c7727504daF4304919cA26e301").then(setErc721Balances);
-        fetchERC1155Balances("0xd26C04bE22Cb25c7727504daF4304919cA26e301").then(setErc1155Balances);
-        fetchRecentTransactions("0xd26C04bE22Cb25c7727504daF4304919cA26e301").then(setRecentTransactions);
+        fetchERC20Balances(address).then(setErc20Balances);
+        fetchERC721Balances(address).then(setErc721Balances);
+        fetchERC1155Balances(address).then(setErc1155Balances);
+        fetchRecentTransactions(address).then(setRecentTransactions);
     }
   }, [address]);
 
@@ -171,7 +174,7 @@ export default function BasicWallet() {
                   />
                   <div>
                   <p className="text-xs text-white">
-                    {String(tx.from?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Send' : String(tx.to?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Receive' : 'SW'}
+                    {String(tx.from?.address) === address ? 'Send' : String(tx.to?.address) === address ? 'Receive' : 'SW'}
                   </p>
                   <p className="text-xs text-gray-500">{tx.erc721Token.name}</p>
                   <p className="text-xs text-gray-500">#{tx.erc721Token.tokenId}</p>
@@ -188,7 +191,7 @@ export default function BasicWallet() {
                     </div>
                     <div className="flex-grow">
                       <p className="text-sm font-semibold text-white">
-                      {String(tx.from?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Send' : String(tx.to?.address) === '0xd26C04bE22Cb25c7727504daF4304919cA26e301' ? 'Receive' : 'SW'}
+                      {String(tx.from?.address) === address ? 'Send' : String(tx.to?.address) === address ? 'Receive' : 'SW'}
                       </p>
                       <p className="text-sm text-gray-400">{tx.erc20Token.name}</p>
                       <p className="text-sm text-gray-400">

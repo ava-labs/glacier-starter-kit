@@ -26,14 +26,16 @@ export default function BlockchainExplorer() {
   }
 
   const fetchRecentTransactions = async () => {
-    const response = await fetch(`/api/explorer?method=getRecentTransactions`)
-    const data = await response.json()
-    return data as NativeTransaction[]
+    //
+    // TODO: Implement this!
+    //
+    return [] as NativeTransaction[]
   }
   const fetchRecentBlocks = async () => {
-    const response = await fetch(`/api/explorer?method=getRecentBlocks`)
-    const data = await response.json()
-    return data as EvmBlock[]
+    //
+    // TODO: Implement this!
+    //
+    return [] as EvmBlock[]
   }
 
   useEffect(() => {

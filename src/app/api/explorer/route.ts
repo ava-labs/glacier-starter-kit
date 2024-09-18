@@ -32,35 +32,15 @@ export async function GET(request: Request) {
 
 
 const getRecentBlocks = async () => {
-    const result = await avaCloudSDK.data.evm.blocks.getLatestBlocks({
-        pageSize: 1,
-      });
-
-    let count = 0;
-    const blocks: EvmBlock[] = [];
-    for await (const page of result) {
-        if (count === 20) {
-            break;
-        }
-        blocks.push(...page.result.blocks);
-        count++;
-    }
-    return blocks
+    //
+    // TODO: Implement this!
+    //
+    return
 }
 
 const getRecentTransactions = async () => {
-    const result = await avaCloudSDK.data.evm.transactions.listLatestTransactions({
-        pageSize: 3,
-    });
-
-    let count = 0;
-    const transactions: NativeTransaction[] = [];
-    for await (const page of result) {
-        if (count === 20) {
-            break;
-        }
-        transactions.push(...page.result.transactions);
-        count++;
-    }
-    return transactions;
+    //
+    // TODO: Implement this!
+    //
+    return
 }

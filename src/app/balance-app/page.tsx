@@ -9,22 +9,16 @@ export default function BalanceApp() {
   const [balances, setBalances] = useState<Erc20TokenBalance[]>([]);
 
   const handleSetAddress = async () => {
-    const addressInput = document.getElementById("address") as HTMLInputElement;
-    const address = addressInput.value;
-    const addressPattern = /^0x[a-fA-F0-9]{40}$/;  
-
-    if (addressInput && addressPattern.test(address)) {
-      setAddress(address);
-      setBalances(await fetchERC20Balances(address));
-    }
+    //
+    // TODO: Implement this!
+    //
   };
 
   const fetchERC20Balances = async (address: string) => {
-    const blockResult = await fetch("api/balance?method=getBlockHeight");
-    const blockNumber = await blockResult.json();
-    const balanceResult = await fetch("api/balance?method=listErc20Balances&address=" + address + "&blockNumber=" + blockNumber);
-    const balances = await balanceResult.json();
-    return balances as Erc20TokenBalance[];
+    //
+    // TODO: Implement this!
+    //
+    return [] as Erc20TokenBalance[];
   };
 
 
